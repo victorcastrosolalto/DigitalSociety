@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB DS: Understanding the Digital Divide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="globe" class="text-blue-600 w-6 h-6"></i>
+                    <span class="font-bold text-xl tracking-tight hidden sm:block">Digital Society <span class="text-blue-600">Core</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#intro" class="hover:text-blue-600 transition-colors">Introduction</a>
+                    <a href="#faces" class="hover:text-blue-600 transition-colors">Dimensions</a>
+                    <a href="#gender" class="hover:text-blue-600 transition-colors">Gender Divide</a>
+                    <a href="#evolution" class="hover:text-blue-600 transition-colors">Evolution</a>
+                    <a href="#takeaways" class="hover:text-blue-600 transition-colors">Takeaways</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md hover:bg-slate-100">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 py-4 space-y-2">
+            <a href="#intro" class="block py-2 text-slate-700">Introduction</a>
+            <a href="#faces" class="block py-2 text-slate-700">Dimensions</a>
+            <a href="#gender" class="block py-2 text-slate-700">Gender Divide</a>
+            <a href="#evolution" class="block py-2 text-slate-700">Evolution</a>
+            <a href="#takeaways" class="block py-2 text-slate-700">Takeaways</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-20 px-4 bg-white border-b border-slate-200">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block px-4 py-1.5 mb-6 text-xs font-semibold tracking-wider text-blue-600 uppercase bg-blue-50 rounded-full">
+                IB Digital Society Resources
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                Understanding the <span class="gradient-text">Digital Divide</span>
+            </h1>
+            <p class="text-xl text-slate-600 leading-relaxed mb-8">
+                More than just internet access—exploring the complex social, economic, and technical gaps in our connected world.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="#intro" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all flex items-center">
+                    Begin Analysis <i data-lucide="arrow-down" class="ml-2 w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Introduction -->
+    <section id="intro" class="py-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 flex items-center">
+                        <i data-lucide="info" class="mr-3 text-blue-600"></i>
+                        A Gap in Our Connected World
+                    </h2>
+                    <div class="space-y-4 text-slate-600 leading-relaxed text-lg">
+                        <p>Nearly every aspect of modern society interacts with the internet. From everyday appliances to complex healthcare systems, digital connectivity is ubiquitous.</p>
+                        <p class="border-l-4 border-blue-500 pl-4 italic">
+                            The <strong>Digital Divide</strong> is the gap between those with access to technology and the skills to use it, and those without.
+                        </p>
+                        <p>First publicized in the 1990s, the term originally framed the issue as "haves" versus "have-nots." Today, we know it's far more complex.</p>
+                    </div>
+                </div>
+                <div class="bg-blue-600 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden">
+                    <i data-lucide="history" class="absolute -right-10 -bottom-10 w-40 h-40 opacity-10"></i>
+                    <h3 class="text-xl font-bold mb-4">Origins</h3>
+                    <p class="mb-4 opacity-90">Coined during the Clinton administration, the 1999 U.S. Dept. of Commerce report defined it as simple physical access to technology infrastructure.</p>
+                    <div class="text-sm bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20">
+                        "The gap between those with access to new technologies and those without." — 1999 Report
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dimensions (Faces of the Divide) -->
+    <section id="faces" class="py-20 px-4 bg-slate-100">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">The Many Faces of the Divide</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Kofi Annan noted in 2003 that this is not a single problem, but a collection of interconnected gaps reflecting social disparities.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Access Divide -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 card-hover">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="wifi"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">The Access Divide</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        The original concept focusing on infrastructure. It asks: <em>"Who has a computer and a connection?"</em> and <em>"Who does not?"</em>
+                    </p>
+                </div>
+
+                <!-- Skills Divide -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 card-hover">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">The Skills/Use Divide</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Focuses on digital literacy. Even with hardware, users must know how to navigate the digital world effectively and meaningfully.
+                    </p>
+                </div>
+
+                <!-- Gender Divide -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 card-hover">
+                    <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">The Gender Divide</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Highlights that women and girls face unique, context-specific barriers and risks that prevent full digital participation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deep Look: Gender Digital Divide -->
+    <section id="gender" class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-slate-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold mb-8 flex items-center">
+                        <span class="bg-pink-500 w-2 h-8 rounded-full mr-4"></span>
+                        Deep Look: The Gender Digital Divide
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-pink-400 font-semibold mb-2">Unique Barriers</h4>
+                            <p class="text-slate-300 text-sm mb-6 leading-relaxed">Women and girls face specific vulnerabilities that vary by context, meaning a "one-size-fits-all" solution often fails.</p>
+                            
+                            <h4 class="text-pink-400 font-semibold mb-2">Safety Concerns</h4>
+                            <p class="text-slate-300 text-sm leading-relaxed">Digital spaces can nurture harmful language and abuse specifically targeting women, making safety a primary barrier to entry.</p>
+                        </div>
+                        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                            <h4 class="text-white font-semibold mb-3 flex items-center">
+                                <i data-lucide="shield-check" class="mr-2 text-green-400 w-5 h-5"></i>
+                                GDC Responsibility
+                            </h4>
+                            <p class="text-slate-300 text-xs italic leading-relaxed">
+                                The UN's Global Digital Compact (GDC) calls on platforms to take responsibility for promoting trust and human rights. Platforms are a "double-edged sword": they empower equality while simultaneously facilitating abuse.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Abstract Decor -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-pink-500/10 blur-[100px] -mr-32 -mt-32"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Evolution Table -->
+    <section id="evolution" class="py-20 px-4 bg-slate-100">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">From Access to Inclusion</h2>
+                <p class="text-slate-600">The focus has shifted from simple connectivity to meaningful participation.</p>
+            </div>
+
+            <div class="overflow-x-auto rounded-2xl shadow-lg border border-slate-200">
+                <table class="w-full text-left bg-white border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="px-6 py-4 text-sm font-bold uppercase tracking-wider text-slate-500 w-1/2">Early Focus (1990s-2000s)</th>
+                            <th class="px-6 py-4 text-sm font-bold uppercase tracking-wider text-blue-600">Modern Focus (Today)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-700">
+                        <tr>
+                            <td class="px-6 py-6 text-sm">Prioritizing physical access to computers and the Internet.</td>
+                            <td class="px-6 py-6 text-sm font-medium">Quality of connection (broadband) and user digital literacy.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-6 text-sm">Funding community technology centers and wiring libraries/schools.</td>
+                            <td class="px-6 py-6 text-sm font-medium">Governing digital spaces for safety, inclusion, and human rights.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-6 text-sm">A dichotomous view of "haves" vs. "have-nots."</td>
+                            <td class="px-6 py-6 text-sm font-medium">Addressing frontiers like AI, data governance, and algorithms.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-8 bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-xl">
+                <p class="text-blue-800 text-sm italic">
+                    "Digital transformation is one of the two seismic shifts that will shape the 21st century." 
+                    <span class="block mt-2 font-bold">— António Guterres, UN Secretary-General</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Takeaways -->
+    <section id="takeaways" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-16">Key Takeaways for Students</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="flex flex-col h-full bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <span class="text-blue-600 font-bold text-3xl mb-4">01</span>
+                    <h3 class="text-lg font-bold mb-4">Beyond Access</h3>
+                    <p class="text-slate-600 text-sm flex-grow">It's not just about a Wi-Fi signal. True inclusion requires safety, skills, and the opportunity to participate in the digital economy without fear.</p>
+                </div>
+                
+                <div class="flex flex-col h-full bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <span class="text-blue-600 font-bold text-3xl mb-4">02</span>
+                    <h3 class="text-lg font-bold mb-4">Multi-Dimensional</h3>
+                    <p class="text-slate-600 text-sm flex-grow">Digital inequality reflects and amplifies existing social inequalities. The gender divide is a primary example of these overlapping barriers.</p>
+                </div>
+                
+                <div class="flex flex-col h-full bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                    <span class="text-blue-600 font-bold text-3xl mb-4">03</span>
+                    <h3 class="text-lg font-bold mb-4">Constantly Evolving</h3>
+                    <p class="text-slate-600 text-sm flex-grow">The challenge now includes data ethics, AI governance, and the "invisible" web. An inclusive society requires sustained investment and responsibility.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                <i data-lucide="book-open" class="text-blue-500 w-5 h-5"></i>
+                <span class="text-white font-semibold">IB DS Study Aid</span>
+            </div>
+            <div class="text-xs text-center md:text-right">
+                <p>Based on: "Understanding the Digital Divide: More Than Just Internet Access"</p>
+                <p class="mt-1">Developed for Digital Society Students & Educators</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Simple scroll reveal effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>
