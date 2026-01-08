@@ -4,4 +4,5 @@
 [Digital Devide](digitalDevide.html)  
 [Computer Generations](computerGenerations.html)  
 [Binary Encoding](binaryEncoding.html)  
-[Binary Logic](binaryLogic.html)
+[Binary Logic](binaryLogic.html)  
+[Analogue to Digital](analogueToDigital.html)
