@@ -1,1 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB DS: Binary Logic & Arithmetic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
+        h1, h2, h3, .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .math-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .math-card:hover {
+            border-color: #8b5cf6;
+            box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.15);
+        }
+
+        .binary-cell {
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border-radius: 0.5rem;
+        }
+
+        .place-value-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+
+        .rule-grid > div {
+            border-left: 3px solid transparent;
+        }
+        
+        .rule-grid > .rule-active {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-violet-600 p-1.5 rounded-lg">
+                        <i data-lucide="calculator" class="text-white w-5 h-5"></i>
+                    </div>
+                    <span class="font-bold text-lg tracking-tight uppercase heading-font">Binary<span class="text-violet-600">Mastery</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest text-slate-500">
+                    <a href="#bases" class="hover:text-violet-600 transition-colors">Bases</a>
+                    <a href="#conversion" class="hover:text-violet-600 transition-colors">Conversion</a>
+                    <a href="#addition" class="hover:text-violet-600 transition-colors">Addition</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="pt-32 pb-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block px-3 py-1 bg-violet-100 text-violet-700 text-[10px] font-bold uppercase tracking-widest rounded-full mb-6">
+                Unit 1.1: Foundations of Computation
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 text-slate-900 leading-tight">
+                The Language of <span class="text-violet-600">Base-2</span>
+            </h1>
+            <p class="text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                In a world of ten digits, computers chose two. Discover how we bridge the gap between human numbers and machine logic.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pb-32">
+
+        <!-- Section 1: Bases -->
+        <section id="bases" class="py-16">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">Decimal vs. Binary</h2>
+                    <p class="text-slate-600 mb-8 leading-relaxed">
+                        The core difference lies in the <strong>Base</strong>. Humans use 10 digits (0-9) because of our ten fingers. Computers use 2 digits (0-1) because they rely on electrical pulses being either ON or OFF.
+                    </p>
+                    
+                    <!-- Decimal Visualization -->
+                    <div class="mb-8">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Decimal (Base-10)</h4>
+                        <div class="flex space-x-2">
+                            <div class="flex-1 text-center">
+                                <div class="bg-slate-200 h-12 flex items-center justify-center font-bold rounded-lg">10³</div>
+                                <div class="place-value-label">1000s</div>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div class="bg-slate-200 h-12 flex items-center justify-center font-bold rounded-lg">10²</div>
+                                <div class="place-value-label">100s</div>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div class="bg-slate-200 h-12 flex items-center justify-center font-bold rounded-lg">10¹</div>
+                                <div class="place-value-label">10s</div>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div class="bg-violet-600 text-white h-12 flex items-center justify-center font-bold rounded-lg">10⁰</div>
+                                <div class="place-value-label">1s</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Binary Visualization -->
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Binary (Base-2)</h4>
+                        <div class="flex space-x-2">
+                            <div class="flex-1 text-center">
+                                <div class="bg-slate-900 text-white h-12 flex items-center justify-center font-bold rounded-lg">2³</div>
+                                <div class="place-value-label">8s</div>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div class="bg-slate-900 text-white h-12 flex items-center justify-center font-bold rounded-lg">2²</div>
+                                <div class="place-value-label">4s</div>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div class="bg-slate-900 text-white h-12 flex items-center justify-center font-bold rounded-lg">2¹</div>
+                                <div class="place-value-label">2s</div>
+                            </div>
+                            <div class="flex-1 text-center">
+                                <div class="bg-violet-600 text-white h-12 flex items-center justify-center font-bold rounded-lg">2⁰</div>
+                                <div class="place-value-label">1s</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-xl mb-6 text-violet-700">The Power of Bits</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-slate-50 rounded-xl">
+                            <i data-lucide="hash" class="w-5 h-5 text-violet-500 mr-4"></i>
+                            <div>
+                                <p class="text-sm font-bold">Bit</p>
+                                <p class="text-xs text-slate-500">The smallest unit of data (0 or 1).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-4 bg-slate-50 rounded-xl">
+                            <i data-lucide="layers" class="w-5 h-5 text-violet-500 mr-4"></i>
+                            <div>
+                                <p class="text-sm font-bold">Byte</p>
+                                <p class="text-xs text-slate-500">8 bits grouped together (can represent numbers 0–255).</p>
+                            </div>
+                        </div>
+                        <div class="p-6 bg-violet-600 rounded-2xl text-white mt-4">
+                            <p class="text-xs font-bold uppercase mb-2">Key Exam Concept:</p>
+                            <p class="text-lg font-medium leading-snug">In Base-n, the value of each position is multiplied by <span class="underline">n</span> as you move to the left.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Conversion -->
+        <section id="conversion" class="py-20 border-t border-slate-200">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold mb-4">The Transformation</h2>
+                    <p class="text-slate-600">How to convert Decimal to Binary using the <strong>Remainder Method</strong>.</p>
+                </div>
+
+                <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-lg">
+                    <div class="bg-slate-900 p-6 text-white flex justify-between items-center">
+                        <span class="text-sm font-bold uppercase tracking-widest">Example: Convert 13 to Binary</span>
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <div class="grid md:grid-cols-2 gap-12">
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-8 h-8 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center font-bold text-sm">1</div>
+                                    <p class="text-sm">Divide 13 by 2. Result is 6, remainder <strong>1</strong>.</p>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-8 h-8 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center font-bold text-sm">2</div>
+                                    <p class="text-sm">Divide 6 by 2. Result is 3, remainder <strong>0</strong>.</p>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-8 h-8 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center font-bold text-sm">3</div>
+                                    <p class="text-sm">Divide 3 by 2. Result is 1, remainder <strong>1</strong>.</p>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-8 h-8 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center font-bold text-sm">4</div>
+                                    <p class="text-sm">Divide 1 by 2. Result is 0, remainder <strong>1</strong>.</p>
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-2xl flex flex-col justify-center items-center text-center">
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-4">Reading Upwards</p>
+                                <div class="flex space-x-3 mb-4">
+                                    <div class="w-12 h-16 bg-violet-600 text-white flex items-center justify-center text-2xl font-black rounded-lg shadow-md">1</div>
+                                    <div class="w-12 h-16 bg-violet-600 text-white flex items-center justify-center text-2xl font-black rounded-lg shadow-md">1</div>
+                                    <div class="w-12 h-16 bg-slate-300 text-slate-600 flex items-center justify-center text-2xl font-black rounded-lg shadow-md">0</div>
+                                    <div class="w-12 h-16 bg-violet-600 text-white flex items-center justify-center text-2xl font-black rounded-lg shadow-md">1</div>
+                                </div>
+                                <p class="text-sm font-bold text-slate-900">13<sub>10</sub> = 1101<sub>2</sub></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Addition -->
+        <section id="addition" class="py-20 border-t border-slate-200">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Binary Addition</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">Adding in binary is exactly like decimal, but you "carry over" much sooner because you only have two digits.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Rules -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold flex items-center"><i data-lucide="list-checks" class="mr-2 text-violet-500"></i> The 4 Rules</h3>
+                    <div class="grid grid-cols-1 gap-3 rule-grid">
+                        <div class="p-4 math-card rounded-xl flex justify-between items-center">
+                            <span class="font-mono text-lg">0 + 0</span>
+                            <span class="font-bold text-slate-400">= 0</span>
+                        </div>
+                        <div class="p-4 math-card rounded-xl flex justify-between items-center">
+                            <span class="font-mono text-lg">0 + 1</span>
+                            <span class="font-bold text-violet-600">= 1</span>
+                        </div>
+                        <div class="p-4 math-card rounded-xl flex justify-between items-center rule-active">
+                            <span class="font-mono text-lg">1 + 1</span>
+                            <span class="font-bold text-violet-600"> = 0 (Carry 1)</span>
+                        </div>
+                        <div class="p-4 math-card rounded-xl flex justify-between items-center">
+                            <span class="font-mono text-lg">1 + 1 + 1</span>
+                            <span class="font-bold text-violet-600"> = 1 (Carry 1)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Addition Walkthrough -->
+                <div class="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden">
+                    <h3 class="text-xl font-bold mb-8">Column Addition Walkthrough</h3>
+                    
+                    <div class="flex justify-center mb-10">
+                        <div class="inline-block font-mono text-3xl tracking-[1rem] leading-relaxed text-right">
+                            <div class="text-violet-400 text-sm tracking-widest mb-2">1 1 0 <span class="text-white italic">(Carries)</span></div>
+                            <div class="border-b-2 border-slate-700 pb-2">
+                                <div>1 1 0 1</div>
+                                <div>+ 0 1 1 0</div>
+                            </div>
+                            <div class="pt-2 text-violet-400">1 0 0 1 1</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            <strong class="text-white">Explanation:</strong> In the second column from the right, 1 + 1 = 10. We write <strong>0</strong> and carry the <strong>1</strong> to the next column. This is exactly how 5 + 5 = 10 works in decimal!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Critical Reflection -->
+        <section class="mt-20 py-16 bg-violet-600 rounded-[3rem] text-white px-8 md:px-16 overflow-hidden relative shadow-2xl">
+            <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">Why does this matter for Digital Society?</h2>
+                    <ul class="space-y-4 text-violet-100">
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle" class="mr-3 w-5 h-5 text-violet-300 mt-1"></i>
+                            <span><strong>Efficiency:</strong> Binary is the most efficient way to represent data with physical circuits (transistors).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle" class="mr-3 w-5 h-5 text-violet-300 mt-1"></i>
+                            <span><strong>Reliability:</strong> It is much easier for a computer to distinguish between "High Voltage" and "Low Voltage" than ten different voltage levels.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle" class="mr-3 w-5 h-5 text-violet-300 mt-1"></i>
+                            <span><strong>Error Detection:</strong> Binary systems allow for simple mathematical checks (parity bits) to ensure data hasn't been corrupted.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="hidden md:block">
+                    <div class="grid grid-cols-4 gap-4 opacity-30">
+                        <div class="h-12 bg-white rounded"></div><div class="h-12 bg-white rounded"></div>
+                        <div class="h-12 bg-white rounded"></div><div class="h-12 bg-white rounded"></div>
+                        <div class="h-12 bg-white rounded"></div><div class="h-12 bg-white rounded"></div>
+                        <div class="h-12 bg-white rounded"></div><div class="h-12 bg-white rounded"></div>
+                    </div>
+                    <div class="mt-8 p-6 border-2 border-violet-400 rounded-3xl text-center italic">
+                        "The strength of the digital world lies in its absolute simplicity: Yes or No. One or Zero."
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-12 px-4 text-center">
+        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-3">Math for the Digital Age</p>
+        <div class="flex justify-center space-x-4 mb-4">
+            <span class="px-2 py-1 bg-slate-100 rounded text-[10px] font-bold text-slate-500">Binary</span>
+            <span class="px-2 py-1 bg-slate-100 rounded text-[10px] font-bold text-slate-500">Decimal</span>
+            <span class="px-2 py-1 bg-slate-100 rounded text-[10px] font-bold text-slate-500">Hexadecimal (Soon)</span>
+        </div>
+        <p class="text-slate-500 text-sm">IB Digital Society: Computational Foundations Study Aid</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Scroll shadow for nav
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-sm');
+            } else {
+                nav.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+</body>
+</html>
