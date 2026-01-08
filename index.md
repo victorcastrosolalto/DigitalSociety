@@ -3,5 +3,5 @@
 [What Is Digital Society](whatIsDigitalSociety.html)  
 [Digital Devide](digitalDevide.html)  
 [Computer Generations](computerGenerations.html)  
-[Binary Encoding](binaryEncoding.html)
+[Binary Encoding](binaryEncoding.html)  
 [Binary Logic](binaryLogic.html)
