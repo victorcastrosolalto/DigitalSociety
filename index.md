@@ -6,4 +6,7 @@
 [Binary Encoding](binaryEncoding.html)  
 [Binary Logic](binaryLogic.html)  
 [Analogue to Digital](analogueToDigital.html)  
-[Digitalization and Digital Transformation](digitalTransformation.html)
+[Digitalization and Digital Transformation](digitalTransformation.html)  
+
+## Data and Data Analytics  
+[DIKW Pyramid Framework](data/dikwPyramid.html)
