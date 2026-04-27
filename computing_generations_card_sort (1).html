@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computing Generations — Card Sort</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .page-header {
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+    background: #1F4E79;
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    color: white;
+  }
+  .page-header .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #90c8f0;
+    margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .page-header p {
+    font-size: 15px;
+    color: #c8dff0;
+    line-height: 1.6;
+    max-width: 680px;
+  }
+
+  .legend {
+    max-width: 1000px;
+    margin: 0 auto 1.25rem;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: #555;
+    background: white;
+    border-radius: 20px;
+    padding: 5px 12px;
+    border: 1px solid #e0e4ea;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .layout {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .panel-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 10px;
+  }
+
+  .card-pool {
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    min-height: 200px;
+    border: 1.5px dashed #c8d4e8;
+    position: sticky;
+    top: 1rem;
+  }
+  .card-pool.drag-over { background: #eaf4ff; border-color: #378ADD; }
+
+  .card {
+    display: block;
+    width: 100%;
+    padding: 8px 10px 8px 13px;
+    border-radius: 8px;
+    border: 1px solid #e0e4ea;
+    border-left-width: 4px;
+    font-size: 13px;
+    line-height: 1.45;
+    cursor: pointer;
+    background: white;
+    color: #1a1a2e;
+    margin-bottom: 7px;
+    transition: transform .12s, box-shadow .12s, background .12s;
+    text-align: left;
+    user-select: none;
+  }
+  .card:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,.1); }
+  .card.selected { background: #eaf4ff; box-shadow: 0 0 0 2px #378ADD; transform: translateY(-1px); }
+  .card.correct { background: #edfaf3; border-color: #1D9E75 !important; }
+  .card.wrong   { background: #fef0f0; border-color: #E24B4A !important; }
+  .card.type-tech  { border-left-color: #1D9E75; }
+  .card.type-era   { border-left-color: #7F77DD; }
+  .card.type-trait { border-left-color: #D85A30; }
+  .card.type-user  { border-left-color: #BA7517; }
+
+  .generations { display: flex; flex-direction: column; gap: 12px; }
+
+  .gen-row {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid #e0e4ea;
+    overflow: hidden;
+    transition: box-shadow .15s;
+  }
+  .gen-row:hover { box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+
+  .gen-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f2f5;
+  }
+  .gen-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .gen-name { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+  .gen-era  { font-size: 12px; color: #888; margin-left: auto; }
+
+  .drop-zone {
+    padding: 10px 12px;
+    min-height: 56px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: background .12s;
+    border-radius: 0 0 14px 14px;
+  }
+  .drop-zone:hover { background: #f7f9fc; }
+  .drop-zone.drag-over { background: #eaf4ff; }
+  .drop-zone .card { width: auto; margin: 0; }
+  .drop-placeholder {
+    font-size: 13px;
+    color: #aaa;
+    padding: 6px 4px;
+    pointer-events: none;
+  }
+
+  .actions {
+    max-width: 1000px;
+    margin: 1.5rem auto 0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background .15s, transform .1s;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary { background: #1F4E79; color: white; }
+  .btn-primary:hover { background: #174069; }
+  .btn-secondary { background: white; color: #1F4E79; border: 1.5px solid #1F4E79; }
+  .btn-secondary:hover { background: #f0f6fc; }
+
+  .score-bar {
+    max-width: 1000px;
+    margin: 1rem auto 0;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    display: none;
+  }
+  .score-bar.show { display: block; }
+  .score-bar.perfect { background: #edfaf3; border: 1px solid #1D9E75; color: #085041; }
+  .score-bar.partial { background: #fff8ec; border: 1px solid #BA7517; color: #633806; }
+  .score-bar.incomplete { background: #f0f6fc; border: 1px solid #378ADD; color: #0C447C; }
+  .score-bar strong { font-weight: 600; }
+
+  @media (max-width: 680px) {
+    .layout { grid-template-columns: 1fr; }
+    .card-pool { position: static; }
+    .page-header { padding: 1.5rem; }
+    .page-header h1 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">IB Digital Society · Content 3.3 Computers</div>
+  <h1>Computing Generations — Card Sort</h1>
+  <p>Select a card from the pool on the left, then click a generation to place it. Sort all 20 cards to complete the activity.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Key technology</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div>Era / milestone</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D85A30"></div>Characteristic</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#BA7517"></div>Who used it</div>
+</div>
+
+<div class="layout">
+  <div>
+    <div class="panel-label">Card pool</div>
+    <div class="card-pool" id="pool"></div>
+  </div>
+  <div>
+    <div class="panel-label">Generations</div>
+    <div class="generations" id="generations"></div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary" id="check-btn">Check answers</button>
+  <button class="btn btn-secondary" id="reset-btn">Reset</button>
+</div>
+<div class="score-bar" id="score-bar"></div>
+
+<script>
+const GENS = [
+  {num:1, name:"First generation",  era:"1940–1956",    bg:"#edfaf3", numBg:"#1D9E75", numColor:"#fff"},
+  {num:2, name:"Second generation", era:"1956–1964",    bg:"#f0effe", numBg:"#7F77DD", numColor:"#fff"},
+  {num:3, name:"Third generation",  era:"1964–1971",    bg:"#fef3ee", numBg:"#D85A30", numColor:"#fff"},
+  {num:4, name:"Fourth generation", era:"1971–2010",    bg:"#fef8ec", numBg:"#BA7517", numColor:"#fff"},
+  {num:5, name:"Fifth generation",  era:"2010–present", bg:"#eaf4ff", numBg:"#378ADD", numColor:"#fff"},
+];
+
+const CARDS = [
+  {id:"c1",  text:"Vacuum tubes & magnetic drums",                        type:"tech",  gen:1},
+  {id:"c2",  text:"Room-sized machines, very expensive to run",           type:"trait", gen:1},
+  {id:"c3",  text:"Only governments and universities had access",         type:"user",  gen:1},
+  {id:"c4",  text:"Single task at a time — no multitasking",             type:"trait", gen:1},
+  {id:"c5",  text:"Transistors replace vacuum tubes",                     type:"tech",  gen:2},
+  {id:"c6",  text:"Smaller, cheaper, more reliable than gen. 1",         type:"trait", gen:2},
+  {id:"c7",  text:"Large corporations begin adopting computers",          type:"user",  gen:2},
+  {id:"c8",  text:"Punch cards and assembly language",                    type:"era",   gen:2},
+  {id:"c9",  text:"Integrated circuits (chips)",                          type:"tech",  gen:3},
+  {id:"c10", text:"Moore's Law first stated (1965)",                      type:"era",   gen:3},
+  {id:"c11", text:"Universities and research labs gain access",           type:"user",  gen:3},
+  {id:"c12", text:"Multitasking and time-sharing introduced",             type:"trait", gen:3},
+  {id:"c13", text:"Microprocessors — thousands of circuits on one chip",  type:"tech",  gen:4},
+  {id:"c14", text:"Personal computer with GUI, RAM, hard drive",          type:"era",   gen:4},
+  {id:"c15", text:"Individuals and households — the PC era",              type:"user",  gen:4},
+  {id:"c16", text:"Internet connects the world",                          type:"trait", gen:4},
+  {id:"c17", text:"AI, cloud computing, mobile devices",                  type:"tech",  gen:5},
+  {id:"c18", text:"Smartphones — more powerful than 1990s supercomputers",type:"era",   gen:5},
+  {id:"c19", text:"Everyone — computing becomes invisible and trivial",   type:"user",  gen:5},
+  {id:"c20", text:"Natural language input; machines learn independently", type:"trait", gen:5},
+];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+let selected = null;
+let placement = {};
+
+function makeCard(card, inPool) {
+  const el = document.createElement("button");
+  el.className = "card type-" + card.type + (selected === card.id ? " selected" : "");
+  el.textContent = card.text;
+  el.dataset.id = card.id;
+  el.addEventListener("click", () => {
+    if (inPool) {
+      selected = selected === card.id ? null : card.id;
+    } else {
+      delete placement[card.id];
+      selected = null;
+    }
+    clearChecks();
+    render();
+  });
+  return el;
+}
+
+function clearChecks() {
+  document.querySelectorAll(".card").forEach(el => {
+    el.classList.remove("correct","wrong");
+  });
+  const bar = document.getElementById("score-bar");
+  bar.className = "score-bar";
+}
+
+function renderPool() {
+  const pool = document.getElementById("pool");
+  pool.innerHTML = "";
+  const inPool = CARDS.filter(c => !placement.hasOwnProperty(c.id));
+  if (inPool.length === 0) {
+    pool.innerHTML = '<p style="font-size:13px;color:#aaa;padding:6px 4px">All cards placed</p>';
+    return;
+  }
+  inPool.forEach(c => pool.appendChild(makeCard(c, true)));
+}
+
+function renderGenerations() {
+  const container = document.getElementById("generations");
+  container.innerHTML = "";
+  GENS.forEach(g => {
+    const row = document.createElement("div");
+    row.className = "gen-row";
+
+    const header = document.createElement("div");
+    header.className = "gen-header";
+    header.innerHTML = `
+      <div class="gen-num" style="background:${g.numBg};color:${g.numColor}">${g.num}</div>
+      <div class="gen-name">${g.name}</div>
+      <div class="gen-era">${g.era}</div>`;
+    row.appendChild(header);
+
+    const zone = document.createElement("div");
+    zone.className = "drop-zone";
+    zone.dataset.gen = g.num;
+
+    const placed = CARDS.filter(c => placement[c.id] === g.num);
+    if (placed.length === 0) {
+      const ph = document.createElement("span");
+      ph.className = "drop-placeholder";
+      ph.textContent = "Click a card from the pool, then click here to place it";
+      zone.appendChild(ph);
+    } else {
+      placed.forEach(c => zone.appendChild(makeCard(c, false)));
+    }
+
+    zone.addEventListener("click", (e) => {
+      if (selected && (e.target === zone || e.target.classList.contains("drop-placeholder"))) {
+        placement[selected] = g.num;
+        selected = null;
+        clearChecks();
+        render();
+      }
+    });
+
+    row.appendChild(zone);
+    container.appendChild(row);
+  });
+}
+
+function render() { renderPool(); renderGenerations(); }
+
+document.getElementById("check-btn").addEventListener("click", () => {
+  const allPlaced = document.querySelectorAll(".drop-zone .card");
+  let correct = 0, total = 0;
+  allPlaced.forEach(el => {
+    const card = CARDS.find(c => c.id === el.dataset.id);
+    const gen = parseInt(el.closest(".drop-zone").dataset.gen);
+    total++;
+    if (card.gen === gen) { el.classList.add("correct"); correct++; }
+    else { el.classList.add("wrong"); }
+  });
+  const bar = document.getElementById("score-bar");
+  const remaining = CARDS.length - Object.keys(placement).length;
+  if (remaining > 0) {
+    bar.className = "score-bar show incomplete";
+    bar.innerHTML = `<strong>${correct}/${total}</strong> placed cards correct — ${remaining} card(s) still in the pool.`;
+  } else if (correct === total) {
+    bar.className = "score-bar show perfect";
+    bar.innerHTML = `<strong>All ${total}/${total} correct.</strong> Excellent work — every card is in the right generation.`;
+  } else {
+    bar.className = "score-bar show partial";
+    bar.innerHTML = `<strong>${correct}/${total}</strong> correct. Cards highlighted in red are misplaced — click them to return them to the pool and try again.`;
+  }
+});
+
+document.getElementById("reset-btn").addEventListener("click", () => {
+  placement = {}; selected = null;
+  const bar = document.getElementById("score-bar");
+  bar.className = "score-bar";
+  const shuffled = shuffle(CARDS);
+  CARDS.length = 0; shuffled.forEach(c => CARDS.push(c));
+  render();
+});
+
+const shuffled = shuffle(CARDS);
+CARDS.length = 0; shuffled.forEach(c => CARDS.push(c));
+render();
+</script>
+</body>
+</html>
