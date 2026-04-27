@@ -10,3 +10,6 @@
 
 ## Data and Data Analytics  
 [DIKW Pyramid Framework](data/dikwPyramid.html)
+
+## Computing Devices
+
