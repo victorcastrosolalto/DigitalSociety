@@ -12,4 +12,4 @@
 [DIKW Pyramid Framework](data/dikwPyramid.html)
 
 ## Computing Devices
-
+[computing generations card sort](computing_generations_card_sort.html)
